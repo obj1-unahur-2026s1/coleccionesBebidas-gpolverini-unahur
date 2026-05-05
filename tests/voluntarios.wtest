@@ -1,0 +1,191 @@
+import src.voluntarios.*
+import src.bebidas.*
+
+describe "Tito | Verificar consumo de whisky" {
+    test "Given: Tito consume 1 cc de whisky | When: consultamos velocidad() | Then: debería retornar 6.3 m/s" {
+        tito.consumir(1, whisky)
+        assert.equals(6.3, tito.velocidad())
+    }
+
+    test "Given: Tito consume 2 cc de whisky | When: consultamos velocidad() | Then: debería retornar 5.67 m/s" {
+        tito.consumir(2, whisky)
+        assert.equals(5.67, tito.velocidad())
+    }
+
+    test "Given: Tito consume 5 cc de whisky | When: consultamos velocidad() | Then: debería ser menor a 5 m/s" {
+        tito.consumir(5, whisky)
+        assert.that(tito.velocidad() < 5)
+    }
+}
+
+describe "Tito | Verificar consumo de tereré" {
+    test "Given: Tito consume 0 cc de tereré | When: consultamos velocidad() | Then: debería retornar 7 m/s (rendimiento mínimo 1)" {
+        tito.consumir(0, terere)
+        assert.equals(7, tito.velocidad())
+    }
+
+    test "Given: Tito consume 10 cc de tereré | When: consultamos velocidad() | Then: debería retornar 7 m/s" {
+        tito.consumir(10, terere)
+        assert.equals(7, tito.velocidad())
+    }
+
+    test "Given: Tito consume 20 cc de tereré | When: consultamos velocidad() | Then: debería retornar 14 m/s" {
+        tito.consumir(20, terere)
+        assert.equals(14, tito.velocidad())
+    }
+
+    test "Given: Tito consume 50 cc de tereré | When: consultamos velocidad() | Then: debería retornar 35 m/s" {
+        tito.consumir(50, terere)
+        assert.equals(35, tito.velocidad())
+    }
+}
+
+describe "Tito | Verificar consumo de cianuro" {
+    test "Given: Tito consume 10 cc de cianuro | When: consultamos velocidad() | Then: debería retornar 0 m/s" {
+        tito.consumir(10, cianuro)
+        assert.equals(0, tito.velocidad())
+    }
+
+    test "Given: Tito consume 1 cc de cianuro | When: consultamos velocidad() | Then: debería retornar 0 m/s" {
+        tito.consumir(1, cianuro)
+        assert.equals(0, tito.velocidad())
+    }
+}
+
+describe "Tito | Verificar reemplazo de sustancias - velocidad" {
+    test "Given: Tito consume 5 cc de whisky y luego 20 cc de tereré | When: consultamos velocidad() | Then: debería retornar 14 m/s (solo tereré)" {
+        tito.consumir(5, whisky)
+        tito.consumir(20, terere)
+        assert.equals(14, tito.velocidad())
+    }
+
+    test "Given: Tito consume 20 cc de tereré y luego 10 cc de cianuro | When: consultamos velocidad() | Then: debería retornar 0 m/s" {
+        tito.consumir(20, terere)
+        tito.consumir(10, cianuro)
+        assert.equals(0, tito.velocidad())
+    }
+
+    test "Given: Tito consume 10 cc de cianuro y luego 1 cc de whisky | When: consultamos velocidad() | Then: debería retornar 6.3 m/s" {
+        tito.consumir(10, cianuro)
+        tito.consumir(1, whisky)
+        assert.equals(6.3, tito.velocidad())
+    }
+}
+
+describe "Tito | Verificar reemplazo de sustancias - sustancia en sistema" {
+    test "Given: Tito consume 5 cc de whisky | When: consultamos sustanciaEnSistema() | Then: debería retornar whisky" {
+        tito.consumir(5, whisky)
+        assert.equals(whisky, tito.sustanciaEnSistema())
+    }
+
+    test "Given: Tito consume 5 cc de whisky y luego 10 cc de tereré | When: consultamos sustanciaEnSistema() | Then: debería retornar tereré" {
+        tito.consumir(5, whisky)
+        tito.consumir(10, terere)
+        assert.equals(terere, tito.sustanciaEnSistema())
+    }
+
+    test "Given: Tito consume 10 cc de tereré y luego 5 cc de cianuro | When: consultamos sustanciaEnSistema() | Then: debería retornar cianuro" {
+        tito.consumir(10, terere)
+        tito.consumir(5, cianuro)
+        assert.equals(cianuro, tito.sustanciaEnSistema())
+    }
+}
+
+describe "Tito | Verificar reemplazo de sustancias - dosis en sistema" {
+    test "Given: Tito consume 5 cc de whisky | When: consultamos dosisDeSustanciaEnSistema() | Then: debería retornar 5" {
+        tito.consumir(5, whisky)
+        assert.equals(5, tito.dosisDeSustanciaEnSistema())
+    }
+
+    test "Given: Tito consume 5 cc de whisky y luego 10 cc de tereré | When: consultamos dosisDeSustanciaEnSistema() | Then: debería retornar 10" {
+        tito.consumir(5, whisky)
+        tito.consumir(10, terere)
+        assert.equals(10, tito.dosisDeSustanciaEnSistema())
+    }
+
+    test "Given: Tito consume 10 cc de tereré y luego 5 cc de cianuro | When: consultamos dosisDeSustanciaEnSistema() | Then: debería retornar 5" {
+        tito.consumir(10, terere)
+        tito.consumir(5, cianuro)
+        assert.equals(5, tito.dosisDeSustanciaEnSistema())
+    }
+
+    test "Given: Tito consume 20 cc de tereré y luego 15 cc de cianuro | When: consultamos dosisDeSustanciaEnSistema() | Then: debería retornar 15" {
+        tito.consumir(20, terere)
+        tito.consumir(15, cianuro)
+        assert.equals(15, tito.dosisDeSustanciaEnSistema())
+    }
+}
+
+describe "Tito | Verificar método consumir" {
+    test "Given: Tito | When: consume 15 cc de whisky | Then: dosisDeSustanciaEnSistema debería ser 15" {
+        tito.consumir(15, whisky)
+        assert.equals(15, tito.dosisDeSustanciaEnSistema())
+    }
+
+    test "Given: Tito | When: consume 25 cc de tereré | Then: dosisDeSustanciaEnSistema debería ser 25" {
+        tito.consumir(25, terere)
+        assert.equals(25, tito.dosisDeSustanciaEnSistema())
+    }
+
+    test "Given: Tito | When: consume 50 cc de cianuro | Then: dosisDeSustanciaEnSistema debería ser 50" {
+        tito.consumir(50, cianuro)
+        assert.equals(50, tito.dosisDeSustanciaEnSistema())
+    }
+}
+
+describe "Tito | Verificar consumo de licuado de frutas" {
+    test "Given: Tito consume 1000 cc de licuado con 20 nutrientes | When: consultamos velocidad() | Then: debería retornar 140 m/s" {
+        licuadoDeFruta.agregarFruta(banana)
+        licuadoDeFruta.agregarFruta(frutilla)
+        tito.consumir(1000, licuadoDeFruta)
+        assert.equals(140, tito.velocidad())
+    }
+
+    test "Given: Tito consume 2000 cc de licuado con 15 nutrientes | When: consultamos velocidad() | Then: debería retornar 210 m/s" {
+        licuadoDeFruta.agregarFruta(manzana)
+        licuadoDeFruta.agregarFruta(naranja)
+        tito.consumir(2000, licuadoDeFruta)
+        assert.equals(210, tito.velocidad())
+    }
+}
+
+describe "Tito | Verificar consumo de agua saborizada" {
+    test "Given: Tito consume 4 cc de agua saborizada con whisky | When: consultamos velocidad() | Then: debería retornar 13.3 m/s" {
+        aguaSaborizada.cambiarSabor(whisky)
+        tito.consumir(4, aguaSaborizada)
+        assert.equals(13.3, tito.velocidad())
+    }
+
+    test "Given: Tito consume 40 cc de agua saborizada con tereré | When: consultamos velocidad() | Then: debería retornar 14 m/s" {
+        aguaSaborizada.cambiarSabor(terere)
+        tito.consumir(40, aguaSaborizada)
+        assert.equals(14, tito.velocidad())
+    }
+
+    test "Given: Tito consume 100 cc de agua saborizada con cianuro | When: consultamos velocidad() | Then: debería retornar 7 m/s (solo el agua)" {
+        aguaSaborizada.cambiarSabor(cianuro)
+        tito.consumir(100, aguaSaborizada)
+        assert.equals(7, tito.velocidad())
+    }
+}
+
+describe "Tito | Verificar consumo de coctel" {
+    test "Given: Tito consume 1 cc de coctel con whisky | When: consultamos velocidad() | Then: debería retornar 6.3 m/s" {
+        coctel.agregarBebida(whisky)
+        tito.consumir(1, coctel)
+        assert.equals(6.3, tito.velocidad())
+    }
+
+    test "Given: Tito consume 20 cc de coctel con whisky y tereré | When: consultamos velocidad() | Then: debería retornar 1.70212 m/s" {
+        coctel.agregarBebida(whisky)
+        coctel.agregarBebida(terere)
+        tito.consumir(20, coctel)
+        assert.equals(1.70212, tito.velocidad())
+    }
+
+    test "Given: Tito consume 10 cc de coctel con cianuro | When: consultamos velocidad() | Then: debería retornar 0 m/s" {
+        coctel.agregarBebida(cianuro)
+        tito.consumir(10, coctel)
+        assert.equals(0, tito.velocidad())
+    }
+}

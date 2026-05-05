@@ -1,0 +1,164 @@
+import src.bebidas.*
+
+describe "Frutas | Verificar nutrientes" {
+    test "Given: banana | When: consultamos nutrientes() | Then: debería retornar 12" {
+        assert.equals(12, banana.nutrientes())
+    }
+
+    test "Given: frutilla | When: consultamos nutrientes() | Then: debería retornar 8" {
+        assert.equals(8, frutilla.nutrientes())
+    }
+
+    test "Given: manzana | When: consultamos nutrientes() | Then: debería retornar 10" {
+        assert.equals(10, manzana.nutrientes())
+    }
+
+    test "Given: naranja | When: consultamos nutrientes() | Then: debería retornar 5" {
+        assert.equals(5, naranja.nutrientes())
+    }
+}
+
+describe "Whisky | Verificar rendimiento" {
+    test "Given: whisky con 1 cc | When: consultamos rendimiento(1) | Then: debería retornar 0.9" {
+        assert.equals(0.9, whisky.rendimiento(1))
+    }
+
+    test "Given: whisky con 2 cc | When: consultamos rendimiento(2) | Then: debería retornar 0.81" {
+        assert.equals(0.81, whisky.rendimiento(2))
+    }
+
+    test "Given: whisky con 3 cc | When: consultamos rendimiento(3) | Then: debería retornar 0.729" {
+        assert.equals(0.729, whisky.rendimiento(3))
+    }
+
+    test "Given: whisky con 5 cc | When: consultamos rendimiento(5) | Then: debería ser menor a 0.6" {
+        assert.that(whisky.rendimiento(5) < 0.6)
+    }
+}
+
+describe "Tereré | Verificar rendimiento" {
+    test "Given: tereré con 0 cc | When: consultamos rendimiento(0) | Then: debería retornar 1 (mínimo)" {
+        assert.equals(1, terere.rendimiento(0))
+    }
+
+    test "Given: tereré con 1 cc | When: consultamos rendimiento(1) | Then: debería retornar 1 (mínimo aplicado)" {
+        assert.equals(1, terere.rendimiento(1))
+    }
+
+    test "Given: tereré con 5 cc | When: consultamos rendimiento(5) | Then: debería retornar 1 (mínimo aplicado)" {
+        assert.equals(1, terere.rendimiento(5))
+    }
+
+    test "Given: tereré con 10 cc | When: consultamos rendimiento(10) | Then: debería retornar 1 (0.1 * 10)" {
+        assert.equals(1, terere.rendimiento(10))
+    }
+
+    test "Given: tereré con 20 cc | When: consultamos rendimiento(20) | Then: debería retornar 2" {
+        assert.equals(2, terere.rendimiento(20))
+    }
+
+    test "Given: tereré con 50 cc | When: consultamos rendimiento(50) | Then: debería retornar 5" {
+        assert.equals(5, terere.rendimiento(50))
+    }
+}
+
+describe "Cianuro | Verificar rendimiento" {
+    test "Given: cianuro con 0 cc | When: consultamos rendimiento(0) | Then: debería retornar 0" {
+        assert.equals(0, cianuro.rendimiento(0))
+    }
+
+    test "Given: cianuro con 100 cc | When: consultamos rendimiento(100) | Then: debería retornar 0" {
+        assert.equals(0, cianuro.rendimiento(100))
+    }
+}
+
+describe "Licuado de fruta | Verificar rendimiento sin frutas" {
+    test "Given: licuado sin frutas | When: consultamos rendimiento(1000) | Then: debería retornar 0" {
+        assert.equals(0, licuadoDeFruta.rendimiento(1000))
+    }
+}
+
+describe "Licuado de fruta | Verificar agregar frutas" {
+    test "Given: licuado vacío | When: agregamos una fruta con 10 nutrientes | Then: rendimiento(1000) debería ser 10" {
+        licuadoDeFruta.agregarFruta(manzana)
+        assert.equals(10, licuadoDeFruta.rendimiento(1000))
+    }
+
+    test "Given: licuado vacío | When: agregamos dos frutas (10 y 5 nutrientes) | Then: rendimiento(1000) debería ser 15" {
+        licuadoDeFruta.agregarFruta(manzana)
+        licuadoDeFruta.agregarFruta(naranja)
+        assert.equals(15, licuadoDeFruta.rendimiento(1000))
+    }
+}
+
+describe "Licuado de fruta | Verificar rendimiento con diferentes cantidades" {
+    test "Given: licuado vacío | When: consultamos rendimiento(500) | Then: debería retornar 0" {
+        assert.equals(0, licuadoDeFruta.rendimiento(500))
+    }
+
+    test "Given: licuado con frutas de 15 nutrientes totales | When: consultamos rendimiento(2000) | Then: debería retornar 30" {
+        licuadoDeFruta.agregarFruta(manzana)
+        licuadoDeFruta.agregarFruta(naranja)
+        assert.equals(30, licuadoDeFruta.rendimiento(2000))
+    }
+}
+
+describe "Agua saborizada | Verificar rendimiento con sabor whisky" {
+    test "Given: agua saborizada con whisky | When: consultamos rendimiento(10) | Then: debería retornar 1.76843" {
+        aguaSaborizada.cambiarSabor(whisky)
+        assert.equals(1.76843, aguaSaborizada.rendimiento(10))
+    }
+
+    test "Given: agua saborizada con whisky | When: consultamos rendimiento(4) | Then: debería retornar 1.9" {
+        aguaSaborizada.cambiarSabor(whisky)
+        assert.equals(1.9, aguaSaborizada.rendimiento(4))
+    }
+
+    test "Given: agua saborizada con whisky | When: consultamos rendimiento(0) | Then: debería retornar 2 (1 del agua + 1 del whisky con 0)" {
+        aguaSaborizada.cambiarSabor(whisky)
+        assert.equals(2, aguaSaborizada.rendimiento(0))
+    }
+}
+
+describe "Agua saborizada | Verificar cambio de sabor" {
+    test "Given: agua saborizada | When: cambiamos sabor a tereré y consultamos rendimiento(40) | Then: debería retornar 2 (1 del agua + 1 del tereré con 10cc)" {
+        aguaSaborizada.cambiarSabor(terere)
+        assert.equals(2, aguaSaborizada.rendimiento(40))
+    }
+
+    test "Given: agua saborizada con tereré | When: cambiamos sabor a cianuro y consultamos rendimiento(100) | Then: debería retornar 1 (solo el agua)" {
+        aguaSaborizada.cambiarSabor(cianuro)
+        assert.equals(1, aguaSaborizada.rendimiento(100))
+    }
+
+    test "Given: agua saborizada con cianuro | When: cambiamos sabor a whisky y consultamos rendimiento(4) | Then: debería retornar 1.9" {
+        aguaSaborizada.cambiarSabor(whisky)
+        assert.equals(1.9, aguaSaborizada.rendimiento(4))
+    }
+}
+
+describe "Coctel | Verificar rendimiento sin bebidas" {
+    test "Given: coctel vacío | When: consultamos rendimiento(10) | Then: debería retornar 1 (elemento neutro)" {
+        assert.equals(1, coctel.rendimiento(10))
+    }
+}
+
+describe "Coctel | Verificar agregar bebidas y rendimiento" {
+    test "Given: coctel vacío | When: agregamos whisky y consultamos rendimiento(1) | Then: debería retornar 0.9" {
+        coctel.agregarBebida(whisky)
+        assert.equals(0.9, coctel.rendimiento(1))
+    }
+
+    test "Given: coctel vacío | When: agregamos whisky y tereré y consultamos rendimiento(20) | Then: debería retornar 0.24316 (0.12 * 2)" {
+        coctel.agregarBebida(whisky)
+        coctel.agregarBebida(terere)
+        assert.equals(0.24316, coctel.rendimiento(20))
+    }
+
+    test "Given: coctel vacío | When: agregamos whisky, tereré y cianuro y consultamos rendimiento(20) | Then: debería retornar 0" {
+        coctel.agregarBebida(whisky)
+        coctel.agregarBebida(terere)
+        coctel.agregarBebida(cianuro)
+        assert.equals(0, coctel.rendimiento(20))
+    }
+}

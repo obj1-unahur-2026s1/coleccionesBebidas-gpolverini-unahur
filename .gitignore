@@ -2,5 +2,11 @@
 # Local history
 .history
 
+# Visual Studio Code
+.vscode
+
+# Kiro AI configuration
+.kiro
+
 # Wollok Log
 *.log
