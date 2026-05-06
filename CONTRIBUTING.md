@@ -1,6 +1,6 @@
 # Guía de Contribución
 
-¡Gracias por tu interés en contribuir a este proyecto! Este documento proporciona pautas para contribuir al sistema de modelado de bebidas y voluntarios.
+¡Gracias por tu interés en contribuir a este proyecto! Este documento proporciona pautas y convenciones para realizar contribuciones de manera efectiva.
 
 ## Código de Conducta
 
@@ -48,20 +48,20 @@ Las sugerencias de mejoras son bienvenidas. Por favor crea un issue describiendo
 - Escribe comentarios cuando el código no sea auto-explicativo
 - Sigue las convenciones de nomenclatura de Wollok
 - Mantén los métodos pequeños y enfocados en una sola responsabilidad
-- Respeta el polimorfismo: todas las bebidas deben responder a `rendimiento(cantidad)`
+- Respeta el polimorfismo: objetos del mismo tipo deben responder a los mismos mensajes
 
 ### Estructura del Proyecto
 
 ```
 .
 ├── src/                    # Código fuente
-│   ├── voluntarios.wlk     # Definición del voluntario (Tito)
-│   └── bebidas.wlk         # Objetos de bebidas (whisky, tereré, cianuro)
-├── tests/                  # Tests unitarios
-│   ├── voluntarios.wtest   # Tests del voluntario
-│   └── bebidas.wtest       # Tests de bebidas
+├── tests/                  # Tests unitarios (100% cobertura)
 ├── log/                    # Archivos de log (ignorados en git)
-├── docs/                   # Documentación adicional
+├── docs/                   # Documentación completa
+├── CHANGELOG.md            # Historial de cambios del proyecto
+├── CODE_OF_CONDUCT.md      # Código de conducta para contribuidores
+├── CONTRIBUTING.md         # Guía de contribución (este archivo)
+├── LICENSE                 # Licencia del proyecto (ISC)
 └── README.md               # Documentación del proyecto
 ```
 
@@ -82,10 +82,11 @@ Todos los cambios deben incluir tests apropiados. Para ejecutar los tests:
 
 Ejemplo:
 ```
-Agrega nueva bebida energizante
+Agrega nueva funcionalidad de validación
 
-- Implementa objeto energizante con su método rendimiento
-- Agrega tests para diferentes dosis
+- Implementa validación de datos de entrada
+- Agrega tests para casos válidos e inválidos
+- Actualiza documentación
 - Fixes #123
 ```
 
